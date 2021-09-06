@@ -1,0 +1,51 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapsed"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" th:href="@{/}">Ninja Ltd.</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li th:classappend="${module == 'home' ? 'active' : ''}">
+                        <a href="#" th:href="@{/}">Home</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="#" th:href="@{/my/vacation}">My Vacation</a>
+                    </li>
+<!--                    <li  th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') and #authorization.expression('hasRole(''ROLE_MODERATOR'')') }">-->
+                    <li sec:authorize-url="/vacation">
+                        <a href="#" th:href="@{/vacation}">Vacation</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a href="#" th:href="@{/all/employees}">Employees</a>
+                    </li>
+                </ul>
+<!--                <ul class="nav navbar-nav navbar-right">-->
+<!--                    <li th:if="${#authorization.expression('isAuthenticated()')}">-->
+<!--                        Welcome <span sec:authentication="principal.username"></span>-->
+<!--                    </li>-->
+<!--                </ul>-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                        <a href="/login" th:href="@{/login}">
+                            <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
+                        </a>
+                    </li>
+                    <li th:if="${#authorization.expression('isAuthenticated()')}">
+                        <a href="/logout" th:href="@{/logout}" onclick="$('#form').submit();">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                        </a>
+<!--                        <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</th:block>
